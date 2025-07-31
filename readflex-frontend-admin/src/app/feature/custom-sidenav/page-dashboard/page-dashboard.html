@@ -1,0 +1,325 @@
+<div class="dashboard-container">
+  <!-- Header Section -->
+  <div class="dashboard-header" @fadeIn>
+    <div class="header-content">
+      <h1 class="dashboard-title">
+        <i class="pi pi-chart-bar"></i>
+        Tableau de Bord Administrateur
+      </h1>
+      <p class="dashboard-subtitle">
+        Aperçu complet de votre plateforme de lecture
+      </p>
+    </div>
+    <div class="header-actions">
+      <p-button
+        label="Actualiser"
+        icon="pi pi-refresh"
+        (onClick)="refresh()"
+        [loading]="loading"
+        severity="primary"
+      >
+      </p-button>
+      <p-button
+        label="Exporter"
+        icon="pi pi-download"
+        (onClick)="exportData()"
+        [disabled]="loading || !stats"
+        severity="secondary"
+      >
+      </p-button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-section">
+    <div class="loading-grid">
+      <p-card *ngFor="let item of [1,2,3,4,5,6]" class="loading-card">
+        <p-skeleton height="60px" styleClass="mb-3"></p-skeleton>
+        <p-skeleton height="30px" width="70%"></p-skeleton>
+      </p-card>
+    </div>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div *ngIf="!loading && stats" class="dashboard-content">
+    <!-- Statistiques Principales -->
+    <div class="stats-section" @slideInUp>
+      <h2 class="section-title">
+        <i class="pi pi-chart-line"></i>
+        Statistiques Clés
+      </h2>
+
+      <div class="stats-grid">
+        <!-- Utilisateurs Total -->
+        <p-card class="stat-card users-card" @scaleIn>
+          <ng-template pTemplate="header">
+            <div class="card-header">
+              <div class="stat-icon">
+                <i class="pi pi-users"></i>
+              </div>
+              <div class="stat-info">
+                <h3>Utilisateurs Total</h3>
+                <p>Membres inscrits</p>
+              </div>
+            </div>
+          </ng-template>
+          <div class="stat-content">
+            <div class="stat-number">{{ animatedTotalUsers | number }}</div>
+            <div class="stat-growth positive">
+              <i class="pi pi-arrow-up"></i>
+              +{{ getGrowthPercentage() | number:'1.1-1' }}% ce mois
+            </div>
+          </div>
+        </p-card>
+
+        <!-- Livres Disponibles -->
+        <p-card class="stat-card books-card" @scaleIn>
+          <ng-template pTemplate="header">
+            <div class="card-header">
+              <div class="stat-icon">
+                <i class="pi pi-book"></i>
+              </div>
+              <div class="stat-info">
+                <h3>Livres Disponibles</h3>
+                <p>Dans la bibliothèque</p>
+              </div>
+            </div>
+          </ng-template>
+          <div class="stat-content">
+            <div class="stat-number">{{ animatedTotalBooks | number }}</div>
+            <div class="stat-subtitle">Prêts à lire</div>
+          </div>
+        </p-card>
+
+        <!-- Auteurs Actifs -->
+        <p-card class="stat-card authors-card" @scaleIn>
+          <ng-template pTemplate="header">
+            <div class="card-header">
+              <div class="stat-icon">
+                <i class="pi pi-user-edit"></i>
+              </div>
+              <div class="stat-info">
+                <h3>Auteurs Actifs</h3>
+                <p>Créateurs de contenu</p>
+              </div>
+            </div>
+          </ng-template>
+          <div class="stat-content">
+            <div class="stat-number">{{ animatedTotalAuthors | number }}</div>
+            <div class="stat-subtitle">Contributeurs</div>
+          </div>
+        </p-card>
+
+        <!-- Lecteurs Actifs -->
+        <p-card class="stat-card readers-card" @scaleIn>
+          <ng-template pTemplate="header">
+            <div class="card-header">
+              <div class="stat-icon">
+                <i class="pi pi-eye"></i>
+              </div>
+              <div class="stat-info">
+                <h3>Lecteurs Actifs</h3>
+                <p>En ligne récemment</p>
+              </div>
+            </div>
+          </ng-template>
+          <div class="stat-content">
+            <div class="stat-number">{{ animatedActiveReaders | number }}</div>
+            <div class="stat-subtitle">Sessions actives</div>
+          </div>
+        </p-card>
+
+        <!-- Lectures Aujourd'hui -->
+        <p-card class="stat-card daily-card" @scaleIn>
+          <ng-template pTemplate="header">
+            <div class="card-header">
+              <div class="stat-icon">
+                <i class="pi pi-calendar"></i>
+              </div>
+              <div class="stat-info">
+                <h3>Lectures Aujourd'hui</h3>
+                <p>Sessions du jour</p>
+              </div>
+            </div>
+          </ng-template>
+          <div class="stat-content">
+            <div class="stat-number">{{ animatedBooksToday | number }}</div>
+            <div class="stat-subtitle">En cours</div>
+          </div>
+        </p-card>
+
+        <!-- Nouveaux Utilisateurs -->
+        <p-card class="stat-card new-users-card" @scaleIn>
+          <ng-template pTemplate="header">
+            <div class="card-header">
+              <div class="stat-icon">
+                <i class="pi pi-user-plus"></i>
+              </div>
+              <div class="stat-info">
+                <h3>Nouveaux ce Mois</h3>
+                <p>Inscriptions récentes</p>
+              </div>
+            </div>
+          </ng-template>
+          <div class="stat-content">
+            <div class="stat-number">{{ animatedNewUsers | number }}</div>
+            <div class="stat-subtitle">Nouveaux membres</div>
+          </div>
+        </p-card>
+      </div>
+    </div>
+
+    <p-divider></p-divider>
+
+    <!-- Section Graphiques -->
+    <div class="charts-section" @slideInUp>
+      <h2 class="section-title">
+        <i class="pi pi-chart-pie"></i>
+        Analyses et Tendances
+      </h2>
+
+      <div class="charts-grid">
+        <!-- Évolution Mensuelle -->
+        <p-panel header="Évolution Mensuelle" class="chart-panel">
+          <ng-template pTemplate="icons">
+            <i class="pi pi-chart-line"></i>
+          </ng-template>
+          <p-chart
+            type="line"
+            [data]="stats.userGrowthChart"
+            [options]="chartOptions"
+            height="350px"
+          >
+          </p-chart>
+        </p-panel>
+
+        <!-- Répartition par Genre -->
+        <p-panel header="Genres Populaires" class="chart-panel">
+          <ng-template pTemplate="icons">
+            <i class="pi pi-chart-pie"></i>
+          </ng-template>
+          <p-chart
+            type="doughnut"
+            [data]="stats.genreChart"
+            [options]="pieChartOptions"
+            height="350px"
+          >
+          </p-chart>
+        </p-panel>
+
+        <!-- Activité de Lecture -->
+        <p-panel header="Activité Hebdomadaire" class="chart-panel">
+          <ng-template pTemplate="icons">
+            <i class="pi pi-chart-bar"></i>
+          </ng-template>
+          <p-chart
+            type="bar"
+            [data]="stats.readingActivityChart"
+            [options]="chartOptions"
+            height="350px"
+          >
+          </p-chart>
+        </p-panel>
+
+        <!-- Métriques Détaillées -->
+        <p-panel header="Métriques de Performance" class="metrics-panel">
+          <ng-template pTemplate="icons">
+            <i class="pi pi-cog"></i>
+          </ng-template>
+
+          <div class="metrics-content">
+            <div class="metric-item">
+              <div class="metric-header">
+                <span class="metric-label">Taux d'Engagement</span>
+                <span class="metric-value"
+                  >{{ ((stats.activeReaders / stats.totalUsers) * 100) |
+                  number:'1.0-0' }}%</span
+                >
+              </div>
+              <p-progressBar
+                [value]="(stats.activeReaders / stats.totalUsers) * 100"
+                [showValue]="false"
+                severity="success"
+              >
+              </p-progressBar>
+            </div>
+
+            <div class="metric-item">
+              <div class="metric-header">
+                <span class="metric-label">Livres par Auteur</span>
+                <span class="metric-value"
+                  >{{ (stats.totalBooks / stats.totalAuthors) | number:'1.0-0'
+                  }}</span
+                >
+              </div>
+              <p-progressBar
+                [value]="(stats.totalBooks / stats.totalAuthors) * 10"
+                [showValue]="false"
+                severity="info"
+              >
+              </p-progressBar>
+            </div>
+
+            <div class="metric-item">
+              <div class="metric-header">
+                <span class="metric-label">Croissance Mensuelle</span>
+                <span class="metric-value"
+                  >{{ ((stats.newUsersThisMonth / stats.totalUsers) * 100) |
+                  number:'1.1-1' }}%</span
+                >
+              </div>
+              <p-progressBar
+                [value]="(stats.newUsersThisMonth / stats.totalUsers) * 100 * 10"
+                [showValue]="false"
+                severity="warning"
+              >
+              </p-progressBar>
+            </div>
+
+            <div class="metric-item">
+              <div class="metric-header">
+                <span class="metric-label">Lectures par Lecteur</span>
+                <span class="metric-value"
+                  >{{ (stats.booksReadToday / stats.activeReaders) |
+                  number:'1.1-1' }}</span
+                >
+              </div>
+              <p-progressBar
+                [value]="(stats.booksReadToday / stats.activeReaders) * 100"
+                [showValue]="false"
+                severity="danger"
+              >
+              </p-progressBar>
+            </div>
+          </div>
+        </p-panel>
+      </div>
+    </div>
+
+    <p-divider></p-divider>
+
+    <!-- Genres Détaillés -->
+    <div class="genres-section" @slideInUp>
+      <h2 class="section-title">
+        <i class="pi pi-tags"></i>
+        Répartition des Genres
+      </h2>
+
+      <div class="genres-grid">
+        <p-card *ngFor="let genre of stats.topGenres" class="genre-card">
+          <div class="genre-header">
+            <h4>{{ genre.name }}</h4>
+            <span class="genre-count">{{ genre.count }} livres</span>
+          </div>
+          <p-progressbar [value]="genre.percentage" styleClass="genre-progress">
+          </p-progressbar>
+          <div class="genre-footer">
+            <span class="genre-percentage"
+              >{{ genre.percentage }}% du catalogue</span
+            >
+          </div>
+        </p-card>
+      </div>
+    </div>
+  </div>
+</div>

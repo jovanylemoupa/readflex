@@ -1,0 +1,245 @@
+footer{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    background-color: var(--project-background-black-color);
+    color: var(--project-font-color-white-on-primary );
+    margin-top: 120px;
+
+    .content{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .top{
+            margin-top: 50px;
+            padding-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+
+            .logo-networks-apps-blocs{
+                width: 375px;
+                > img {
+                    height: 80px;
+                    transform: rotate(13deg);
+                    margin-bottom: 10px;
+                }
+
+                p{
+                    line-height: 23px;
+                    font-size: 15px;
+                    margin-bottom: 17px;
+                }
+
+                .networks{
+                    margin-top: 20px;
+                    display: flex;
+                    
+    
+                     a{
+                        width: 35px;
+                        height : 35px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: red;
+                        margin-right: 10px;
+    
+                        &:hover{
+                           transform: scale(1.2);
+                           box-shadow: rgba(0, 0, 0, 0.499) 0px 54px 55px, rgba(0, 0, 0, 0.247) 0px -12px 30px, rgba(0, 0, 0, 0.24) 0px 4px 6px, rgba(0, 0, 0, 0.348) 0px 12px 13px, rgba(0, 0, 0, 0.185) 0px -3px 5px;
+                        }
+    
+                        img{
+                            height: 20px;
+                            object-fit: cover;
+                            object-position: center;
+                            margin-bottom: 0;
+                        }
+                     }                    
+                }
+            }
+
+            .act,
+            .inform,
+            .apps{
+                display: flex;
+                flex-direction: column;
+
+                h3{
+                    margin-bottom: 15px;
+                    color: var(--project-secondary-color);
+                    font-size: 1.5rem;
+                }
+
+                ul{
+                    list-style: none;
+                    list-style-position: inside;
+
+                    li{
+                        margin-bottom: 5px;
+                        cursor: pointer;
+
+                        &:hover{
+                            color: var(--project-primary-color);
+                            font-weight: 100;
+
+                            a{
+                                box-shadow: rgba(0, 0, 0, 0.499) 0px 54px 55px, rgba(0, 0, 0, 0.247) 0px -12px 30px, rgba(0, 0, 0, 0.24) 0px 4px 6px, rgba(0, 0, 0, 0.348) 0px 12px 13px, rgba(0, 0, 0, 0.185) 0px -3px 5px;
+                                
+                                img{
+                                    transform: scale(1.2);
+                                }
+                            }
+                        }
+
+                        a{
+                            img{
+                                height: 50px;
+                                object-fit: cover;
+                                object-position: center;
+                                margin-top: 5px;
+                                transition: all 0.2s ease-in-out;
+
+                                &:last-child{
+                                    width: 174px;
+                                    height: 51px;
+                                    border: 1px solid white;
+                                    border-radius: 8px;
+                                }
+                                
+                            }
+                        }
+
+                        
+                    }
+                }
+            }
+        }
+
+        .bottom{
+            border-top: 1px solid #666666;
+            padding: 20px 0;
+
+            p{
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+    }
+
+}
+
+@media all and (max-width: 1125px){
+    footer{
+        .content{
+            .top{
+                gap: 2rem;
+                flex-wrap: wrap;
+
+                .logo-networks-apps-blocs{
+                    width: 350px;
+                    > img {
+                        height: 70px;
+                    }
+    
+                    .networks{
+                        margin-top: 15px;                        
+        
+                         a{
+                            width: 30px;
+                            height : 30px;
+        
+                            img{
+                                height: 16px;
+                            }
+                         }                    
+                    }
+                }
+    
+                .act,
+                .inform,
+                .apps{
+                    h3{
+                        font-size: 1.1rem;
+                    }
+    
+                    ul{
+                        li{
+                            font-size: 15px;                                    
+
+                            &:hover{
+
+                                a{
+                                    img{
+                                        transform: scale(1.1);
+                                    }
+                                }
+                            }
+    
+                            a{
+                                img{
+                                    height: 45px !important;
+                                    width: 150px !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    
+            .bottom{
+                p{
+                    font-size: 15px;
+                }
+            }
+        }
+    }
+}
+
+@media all and (max-width: 425px){
+    footer{
+        .content{
+            .top{
+                justify-content: center;
+
+                .logo-networks-apps-blocs{
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    p{
+                        text-align: center;
+                    }
+    
+                    .networks{
+                        justify-content: center;                   
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media all and (max-width: 404px){
+    footer{
+        .content{
+            .top{
+                .act,
+                .inform,
+                .apps{
+                    width: 100%;
+                    align-items: center;
+                    ul{
+                        li{
+                            text-align: center;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

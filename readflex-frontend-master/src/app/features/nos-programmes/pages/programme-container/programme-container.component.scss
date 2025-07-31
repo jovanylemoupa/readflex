@@ -1,0 +1,858 @@
+// Variables (identiques à la page d'accueil)
+$primary-bg: #141414;
+$secondary-bg: #1f1f1f;
+$card-bg: #2a2a2a;
+$accent-color: #e50914;
+$text-primary: #ffffff;
+$text-secondary: #b3b3b3;
+$border-radius: 8px;
+$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+// Mixins
+@mixin button-primary {
+  background: $accent-color;
+  color: $text-primary;
+  border: none;
+  border-radius: $border-radius;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition;
+  
+  &:hover {
+    background: darken($accent-color, 10%);
+    transform: translateY(-2px);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+@mixin card-style {
+  background: $card-bg;
+  border-radius: $border-radius;
+  overflow: hidden;
+  transition: $transition;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow;
+  }
+}
+
+.programs-container {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: $primary-bg;
+  color: $text-primary;
+  min-height: 100vh;
+  line-height: 1.6;
+  margin-top: 103px;
+}
+
+// ===== HERO SECTION =====
+.programs-hero {
+  position: relative;
+  background: linear-gradient(135deg, $secondary-bg 0%, $card-bg 100%);
+  padding: 5rem 2rem 3rem;
+  text-align: center;
+  overflow: hidden;
+  
+  @media (max-width: 768px) {
+    padding: 3rem 1rem 2rem;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, $accent-color, #ff6b6b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      
+      @media (max-width: 768px) {
+        font-size: 2.5rem;
+      }
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: $text-secondary;
+      margin-bottom: 2rem;
+      
+      @media (max-width: 768px) {
+        font-size: 1rem;
+      }
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      
+      @media (max-width: 768px) {
+        gap: 1.5rem;
+      }
+
+      .stat-item {
+        text-align: center;
+
+        .stat-number {
+          display: block;
+          font-size: 2.5rem;
+          font-weight: 700;
+          color: $accent-color;
+          
+          @media (max-width: 768px) {
+            font-size: 2rem;
+          }
+        }
+
+        .stat-label {
+          font-size: 0.9rem;
+          color: $text-secondary;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+      }
+    }
+  }
+
+  .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(229, 9, 20, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
+    animation: float 6s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+// ===== SECTION FILTRES =====
+.filters-section {
+  padding: 2rem;
+  background: rgba($secondary-bg, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  .filters-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .main-search {
+    margin-bottom: 2rem;
+
+    .search-input-wrapper {
+      position: relative;
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      background: $card-bg;
+      border-radius: $border-radius;
+      border: 2px solid transparent;
+      transition: $transition;
+
+      &:focus-within {
+        border-color: $accent-color;
+        box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.1);
+      }
+
+      .main-search-input {
+        flex: 1;
+        background: none;
+        border: none;
+        padding: 1rem 1.5rem;
+        color: $text-primary;
+        font-size: 1.1rem;
+        outline: none;
+
+        &::placeholder {
+          color: $text-secondary;
+        }
+      }
+
+      .search-btn {
+        background: $accent-color;
+        border: none;
+        padding: 1rem 1.5rem;
+        color: white;
+        cursor: pointer;
+        border-radius: 0 $border-radius $border-radius 0;
+        transition: $transition;
+        
+        &:hover {
+          background: darken($accent-color, 10%);
+        }
+      }
+    }
+  }
+
+  .quick-filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .filter-group {
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: $text-secondary;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .filter-select {
+        width: 100%;
+        background: $card-bg;
+        color: $text-primary;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: $border-radius;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: $transition;
+
+        &:focus {
+          outline: none;
+          border-color: $accent-color;
+          box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.1);
+        }
+
+        option {
+          background: $card-bg;
+          color: $text-primary;
+        }
+      }
+    }
+  }
+
+  .view-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .view-options {
+      display: flex;
+      gap: 0.5rem;
+
+      .view-btn {
+        background: $card-bg;
+        color: $text-secondary;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: $border-radius;
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        transition: $transition;
+        font-size: 1.2rem;
+
+        &:hover {
+          color: $text-primary;
+          border-color: $accent-color;
+        }
+
+        &.active {
+          background: $accent-color;
+          color: white;
+          border-color: $accent-color;
+        }
+      }
+    }
+
+    .results-info {
+      font-size: 0.9rem;
+      color: $text-secondary;
+    }
+  }
+}
+
+// ===== FILTRES AVANCÉS =====
+.advanced-filters {
+  background: rgba($secondary-bg, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  .toggle-advanced {
+    width: 100%;
+    background: none;
+    border: none;
+    color: $text-primary;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    transition: $transition;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .toggle-icon {
+      transition: transform 0.3s ease;
+      
+      &.rotated {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .advanced-content {
+    padding: 0 2rem;
+    
+    @media (max-width: 768px) {
+      padding: 0 1rem;
+    }
+
+    .advanced-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 2rem 0;
+      
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1rem 0;
+      }
+
+      .filter-range {
+        label {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+          color: $text-secondary;
+          font-size: 0.9rem;
+        }
+
+        .range-inputs {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+
+          .range-input {
+            flex: 1;
+            background: $card-bg;
+            color: $text-primary;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: $border-radius;
+            padding: 0.75rem;
+            outline: none;
+            transition: $transition;
+
+            &:focus {
+              border-color: $accent-color;
+            }
+          }
+
+          span {
+            color: $text-secondary;
+          }
+        }
+      }
+
+      .filter-tags {
+        label {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+          color: $text-secondary;
+          font-size: 0.9rem;
+        }
+
+        .tags-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+
+          .tag-btn {
+            background: $card-bg;
+            color: $text-secondary;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: $transition;
+            font-size: 0.85rem;
+
+            &:hover {
+              color: $text-primary;
+              border-color: $accent-color;
+            }
+
+            &.active {
+              background: $accent-color;
+              color: white;
+              border-color: $accent-color;
+            }
+          }
+        }
+      }
+
+      .filter-status {
+        label {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+          color: $text-secondary;
+          font-size: 0.9rem;
+        }
+
+        .status-options {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+
+          .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+
+            input[type="checkbox"] {
+              accent-color: $accent-color;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// ===== SECTION RÉSULTATS =====
+.results-section {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  .active-filters {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba($secondary-bg, 0.5);
+    border-radius: $border-radius;
+
+    .filters-label {
+      font-weight: 600;
+      margin-right: 1rem;
+      color: $text-secondary;
+    }
+
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+
+      .filter-chip {
+        background: $accent-color;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        button {
+          background: none;
+          border: none;
+          color: white;
+          cursor: pointer;
+          font-size: 1rem;
+          line-height: 1;
+        }
+      }
+
+      .clear-all-btn {
+        @include button-primary;
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+      }
+    }
+  }
+
+  .programs-grid {
+    display: grid;
+    gap: 2rem;
+    
+    &[data-view="grid"] {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      
+      @media (max-width: 768px) {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+    }
+    
+    &[data-view="list"] {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .program-card {
+      @include card-style;
+      position: relative;
+      
+      &[data-view="grid"] {
+        .card-image {
+          position: relative;
+          aspect-ratio: 3/4;
+          overflow: hidden;
+          height: 200px;
+          width: 100%;
+
+          img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: $transition;
+          }
+
+          .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: $transition;
+
+            .overlay-content {
+              display: flex;
+              gap: 1rem;
+
+              .play-btn, .info-btn {
+                @include button-primary;
+                font-size: 0.9rem;
+                padding: 0.75rem 1.5rem;
+              }
+
+              .info-btn {
+                background: rgba(255, 255, 255, 0.2);
+                backdrop-filter: blur(10px);
+              }
+            }
+          }
+
+          .card-badges {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            .badge {
+              padding: 0.25rem 0.75rem;
+              border-radius: 15px;
+              font-size: 0.75rem;
+              font-weight: 600;
+              
+              &.premium {
+                background: linear-gradient(45deg, gold, orange);
+                color: black;
+              }
+              
+              &.new {
+                background: $accent-color;
+                color: white;
+              }
+            }
+          }
+        }
+
+        .card-content {
+          padding: 1.5rem;
+
+          .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+          }
+
+          .card-author {
+            color: $text-secondary;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+          }
+
+          .card-description {
+            color: $text-secondary;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+
+          .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+
+            .rating {
+              display: flex;
+              align-items: center;
+              gap: 0.25rem;
+              color: gold;
+            }
+
+            .category {
+              background: rgba($accent-color, 0.2);
+              color: $accent-color;
+              padding: 0.25rem 0.5rem;
+              border-radius: 12px;
+              font-size: 0.75rem;
+            }
+
+            .duration {
+              color: $text-secondary;
+            }
+          }
+
+          .card-actions {
+            display: flex;
+            gap: 0.5rem;
+
+            .action-btn {
+              border: none;
+              border-radius: $border-radius;
+              cursor: pointer;
+              transition: $transition;
+              
+              &.primary {
+                @include button-primary;
+                flex: 1;
+                font-size: 0.9rem;
+                padding: 0.75rem;
+              }
+              
+              &.secondary {
+                background: rgba(255, 255, 255, 0.1);
+                color: $text-primary;
+                padding: 0.75rem;
+                font-size: 1rem;
+                
+                &:hover {
+                  background: rgba(255, 255, 255, 0.2);
+                }
+              }
+            }
+          }
+        }
+
+        &:hover {
+          .card-image {
+            img {
+              transform: scale(1.05);
+            }
+            
+            .card-overlay {
+              opacity: 1;
+            }
+          }
+        }
+      }
+      
+      &[data-view="list"] {
+        display: flex;
+        align-items: center;
+        padding: 1.5rem;
+        gap: 2rem;
+        
+        @media (max-width: 768px) {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .card-image {
+          flex: 0 0 120px;
+          height: 160px;
+          border-radius: $border-radius;
+          overflow: hidden;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .card-content {
+          flex: 1;
+          
+          .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+          }
+          
+          .card-description {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+          
+          .card-actions {
+            margin-top: 1rem;
+            justify-content: flex-start;
+            
+            @media (max-width: 768px) {
+              justify-content: center;
+            }
+          }
+        }
+      }
+    }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 2rem;
+
+      .no-results-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+      }
+
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        color: $text-secondary;
+        margin-bottom: 2rem;
+      }
+
+      .reset-btn {
+        @include button-primary;
+      }
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 3rem;
+
+    .page-btn {
+      background: $card-bg;
+      color: $text-primary;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: $border-radius;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      transition: $transition;
+
+      &:hover:not(:disabled) {
+        background: $accent-color;
+        border-color: $accent-color;
+      }
+
+      &.active {
+        background: $accent-color;
+        border-color: $accent-color;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    .page-numbers {
+      display: flex;
+      gap: 0.25rem;
+    }
+  }
+
+  .load-more {
+    text-align: center;
+    margin-top: 3rem;
+
+    .load-more-btn {
+      @include button-primary;
+      font-size: 1rem;
+      padding: 1rem 2rem;
+    }
+  }
+}
+
+// ===== RESPONSIVE AMÉLIORATIONS =====
+@media (max-width: 480px) {
+  .programs-hero {
+    .hero-stats {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+  
+  .filters-section {
+    .quick-filters {
+      .filter-group {
+        .filter-select {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+  
+  .results-section {
+    .programs-grid {
+      &[data-view="grid"] {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}

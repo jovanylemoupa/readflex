@@ -1,0 +1,167 @@
+<div class="about-container">
+  <!-- Hero Section Compact -->
+  <section class="about-hero">
+    <div class="hero-content">
+      <h1>📖 À Propos de Nous</h1>
+      <p>
+        Nous sommes passionnés par le pouvoir des histoires à transformer,
+        inspirer et connecter les gens.
+      </p>
+    </div>
+  </section>
+
+  <!-- Mission & Équipe en une section -->
+  <section class="main-section">
+    <div class="section-grid">
+      <!-- Mission -->
+      <div class="mission-card">
+        <div class="card-icon">🎯</div>
+        <h3>Notre Mission</h3>
+        <p>
+          Démocratiser l'accès à la littérature en offrant une plateforme
+          moderne et intuitive pour découvrir les plus belles histoires.
+        </p>
+      </div>
+
+      <!-- Vision -->
+      <div class="mission-card">
+        <div class="card-icon">👁️</div>
+        <h3>Notre Vision</h3>
+        <p>
+          Devenir la référence du streaming littéraire en créant une communauté
+          passionnée où chaque histoire trouve son public.
+        </p>
+      </div>
+
+      <!-- Statistiques rapides -->
+      <div class="stats-quick">
+        <h3>📊 En Chiffres</h3>
+        <div class="stats-row">
+          <div class="stat-item">
+            <span class="stat-number">50K+</span>
+            <span class="stat-label">Utilisateurs</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">2.5K</span>
+            <span class="stat-label">Histoires</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">350</span>
+            <span class="stat-label">Auteurs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Équipe Compacte -->
+  <section class="team-section">
+    <h2>👥 Notre Équipe</h2>
+    <div class="team-grid">
+      <div class="team-member" *ngFor="let member of teamMembers">
+        <img [src]="member.photo" [alt]="member.name" class="member-photo" />
+        <div class="member-info">
+          <h4>{{ member.name }}</h4>
+          <p class="member-role">{{ member.role }}</p>
+          <div class="member-contact" *ngIf="member.email">
+            <a [href]="'mailto:' + member.email">✉️</a>
+            <a [href]="member.linkedin" target="_blank" *ngIf="member.linkedin"
+              >💼</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technologies -->
+  <section class="tech-section">
+    <h2>⚡ Technologies</h2>
+    <div class="tech-grid">
+      <div class="tech-category" *ngFor="let category of techStack">
+        <h3>{{ category.name }}</h3>
+        <div class="tech-list">
+          <span class="tech-item" *ngFor="let tech of category.technologies">
+            {{ tech.icon }} {{ tech.name }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Témoignage Simple -->
+  <section class="testimonial-section">
+    <div class="testimonial-simple">
+      <div class="quote">
+        "Cette plateforme a révolutionné ma façon de découvrir de nouvelles
+        histoires. Interface intuitive et contenu exceptionnel !"
+      </div>
+      <div class="author">
+        <img src="/assets/images/testimonials/emma.jpg" alt="Emma" />
+        <div>
+          <strong>Emma Dubois</strong>
+          <span>Utilisatrice depuis 2022</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Compact -->
+  <section class="contact-section">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2>💌 Contact</h2>
+        <div class="contact-item">
+          <span>✉️</span>
+          <a href="mailto:contact&#64;histoires-streaming.com"
+            >jovanylemoupa&#64;gmail.com</a
+          >
+        </div>
+        <div class="contact-item">
+          <span>📍</span>
+          <span>Paris, France</span>
+        </div>
+
+        <div class="social-links">
+          <a href="#" class="social-btn">🐦 Twitter</a>
+          <a href="#" class="social-btn">📷 Instagram</a>
+          <a href="#" class="social-btn">💼 LinkedIn</a>
+        </div>
+      </div>
+
+      <!-- Newsletter Simple -->
+      <div class="newsletter">
+        <h3>📬 Newsletter</h3>
+        <p>Recevez nos actualités</p>
+        <form
+          class="newsletter-form"
+          (ngSubmit)="subscribeNewsletter()"
+          #form="ngForm"
+        >
+          <input
+            type="email"
+            placeholder="Votre email"
+            [(ngModel)]="newsletterEmail"
+            name="email"
+            required
+            class="email-input"
+          />
+          <button
+            type="submit"
+            [disabled]="!form.valid || isSubscribing"
+            class="subscribe-btn"
+          >
+            {{ isSubscribing ? "En cours..." : "S'inscrire" }}
+          </button>
+        </form>
+
+        <div class="success-msg" *ngIf="subscriptionSuccess">
+          ✅ Inscription réussie !
+        </div>
+        <div class="error-msg" *ngIf="subscriptionError">
+          ❌ Erreur, réessayez
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

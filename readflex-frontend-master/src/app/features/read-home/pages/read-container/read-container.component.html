@@ -1,0 +1,8 @@
+<div class="read-container">
+  <h2>Nos histoire les plus accractives</h2>
+  <div class="stories">
+    @for (story of stories; track $index) {
+    <app-card-story [story]="story"></app-card-story>
+    }
+  </div>
+</div>

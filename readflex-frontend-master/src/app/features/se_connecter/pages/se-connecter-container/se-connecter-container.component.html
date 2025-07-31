@@ -1,0 +1,45 @@
+<div class="s-identifier-container">
+  <div class="container">
+    <h2>Connexion</h2>
+
+    <form [formGroup]="connexionInfo" (ngSubmit)="onLoginUser()">
+      <div class="form-group pt-3">
+        <div class="input-field">
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-user" />
+            <input
+              type="text"
+              pInputText
+              placeholder="Nom d'utilisateur"
+              formControlName="username"
+            />
+          </p-iconField>
+          @if ( isSaveButtonClicked &&
+          connexionInfo.controls['username'].invalid) {
+          <small class="text-danger">*Nom d'utilisateur requis</small>
+          }
+        </div>
+        <div class="passw">
+          <label for="pass">Mot de passe :</label>
+
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-lock"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              class="ng-invalid ng-dirty"
+              formControlName="password"
+            />
+          </p-inputGroup>
+        </div>
+        @if ( isSaveButtonClicked && connexionInfo.controls['password'].invalid
+        ) {
+        <small class="text-danger">*Le mot de passe est requis</small>
+        }
+        <button type="submit">Valider</button>
+      </div>
+    </form>
+  </div>
+  <p-toast position="top-center" />
+</div>

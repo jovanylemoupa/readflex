@@ -1,0 +1,361 @@
+<div class="programs-container">
+  <!-- Hero Section -->
+  <section class="programs-hero">
+    <div class="hero-content">
+      <h1>📚 Nos Programmes</h1>
+      <p>Découvrez notre collection complète d'histoires captivantes</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">{{ totalPrograms }}</span>
+          <span class="stat-label">Histoires</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">{{ totalCategories }}</span>
+          <span class="stat-label">Genres</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">{{ totalHours }}</span>
+          <span class="stat-label">Heures</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-background"></div>
+  </section>
+
+  <!-- Filtres et Recherche -->
+  <section class="filters-section">
+    <div class="filters-container">
+      <!-- Barre de recherche principale -->
+      <div class="main-search">
+        <div class="search-input-wrapper">
+          <input
+            type="text"
+            placeholder="Rechercher une histoire, un auteur..."
+            [(ngModel)]="searchQuery"
+            (input)="onSearchChange()"
+            class="main-search-input"
+          />
+          <button class="search-btn" (click)="performSearch()">
+            <span>🔍</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filtres rapides -->
+      <div class="quick-filters">
+        <div class="filter-group">
+          <label>Genre</label>
+          <select
+            [(ngModel)]="selectedCategory"
+            (change)="applyFilters()"
+            class="filter-select"
+          >
+            <option value="">Tous les genres</option>
+            @for (category of categories; track category.value) {
+            <option [value]="category.value">{{ category.label }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Auteur</label>
+          <select
+            [(ngModel)]="selectedAuthor"
+            (change)="applyFilters()"
+            class="filter-select"
+          >
+            <option value="">Tous les auteurs</option>
+            @for (author of authors; track author) {
+            <option [value]="author">{{ author }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Note</label>
+          <select
+            [(ngModel)]="selectedRating"
+            (change)="applyFilters()"
+            class="filter-select"
+          >
+            <option value="">Toutes les notes</option>
+            <option value="4.5">4.5+ étoiles</option>
+            <option value="4.0">4.0+ étoiles</option>
+            <option value="3.5">3.5+ étoiles</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Tri</label>
+          <select
+            [(ngModel)]="sortBy"
+            (change)="applySorting()"
+            class="filter-select"
+          >
+            <option value="popularity">Plus populaires</option>
+            <option value="rating">Mieux notées</option>
+            <option value="recent">Plus récentes</option>
+            <option value="alphabetical">Alphabétique</option>
+            <option value="duration">Durée</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Options d'affichage -->
+      <div class="view-controls">
+        <div class="view-options">
+          <button
+            [class.active]="viewMode === 'grid'"
+            (click)="setViewMode('grid')"
+            class="view-btn"
+            title="Vue grille"
+          >
+            ⊞
+          </button>
+          <button
+            [class.active]="viewMode === 'list'"
+            (click)="setViewMode('list')"
+            class="view-btn"
+            title="Vue liste"
+          >
+            ☰
+          </button>
+        </div>
+
+        <div class="results-info">
+          <span
+            >{{ filteredPrograms.length }} sur
+            {{ totalPrograms }} histoires</span
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filtres avancés (repliables) -->
+  <section class="advanced-filters" [class.expanded]="showAdvancedFilters">
+    <button class="toggle-advanced" (click)="toggleAdvancedFilters()">
+      <span>Filtres avancés</span>
+      <span class="toggle-icon" [class.rotated]="showAdvancedFilters">▼</span>
+    </button>
+
+    <div
+      class="advanced-content"
+      [@slideToggle]="showAdvancedFilters ? 'expanded' : 'collapsed'"
+    >
+      <div class="advanced-grid">
+        <div class="filter-range">
+          <label>Durée de lecture</label>
+          <div class="range-inputs">
+            <input
+              type="number"
+              placeholder="Min (h)"
+              [(ngModel)]="durationMin"
+              (input)="applyFilters()"
+              class="range-input"
+            />
+            <span>-</span>
+            <input
+              type="number"
+              placeholder="Max (h)"
+              [(ngModel)]="durationMax"
+              (input)="applyFilters()"
+              class="range-input"
+            />
+          </div>
+        </div>
+
+        <div class="filter-tags">
+          <label>Tags</label>
+          <div class="tags-container">
+            @for (tag of availableTags; track tag) {
+            <button
+              [class.active]="selectedTags.includes(tag)"
+              (click)="toggleTag(tag)"
+              class="tag-btn"
+            >
+              {{ tag }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <div class="filter-status">
+          <label>Statut</label>
+          <div class="status-options">
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                [(ngModel)]="showCompleted"
+                (change)="applyFilters()"
+              />
+              <span>Histoires terminées</span>
+            </label>
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                [(ngModel)]="showInProgress"
+                (change)="applyFilters()"
+              />
+              <span>En cours</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Résultats -->
+  <section class="results-section">
+    <!-- Filtres actifs -->
+    <div class="active-filters" *ngIf="hasActiveFilters()">
+      <span class="filters-label">Filtres actifs:</span>
+      <div class="filter-chips">
+        @if (selectedCategory) {
+        <span class="filter-chip">
+          {{ getCategoryLabel(selectedCategory) }}
+          <button (click)="clearFilter('category')">×</button>
+        </span>
+        } @if (selectedAuthor) {
+        <span class="filter-chip">
+          {{ selectedAuthor }}
+          <button (click)="clearFilter('author')">×</button>
+        </span>
+        } @if (selectedRating) {
+        <span class="filter-chip">
+          {{ selectedRating }}+ ⭐
+          <button (click)="clearFilter('rating')">×</button>
+        </span>
+        } @for (tag of selectedTags; track tag) {
+        <span class="filter-chip">
+          #{{ tag }}
+          <button (click)="toggleTag(tag)">×</button>
+        </span>
+        }
+        <button class="clear-all-btn" (click)="clearAllFilters()">
+          Effacer tout
+        </button>
+      </div>
+    </div>
+
+    <!-- Grille des programmes -->
+    <div class="programs-grid" [attr.data-view]="viewMode">
+      @if (filteredPrograms.length === 0) {
+      <div class="no-results">
+        <div class="no-results-icon">📚</div>
+        <h3>Aucune histoire trouvée</h3>
+        <p>Essayez de modifier vos critères de recherche</p>
+        <button class="reset-btn" (click)="clearAllFilters()">
+          Réinitialiser les filtres
+        </button>
+      </div>
+      } @else { @for (program of paginatedPrograms; track program.id) {
+      <div class="program-card" [attr.data-view]="viewMode">
+        <div class="card-image">
+          <img
+            [src]="program.imagestory"
+            [alt]="program.titre"
+            loading="lazy"
+          />
+          <div class="card-overlay">
+            <div class="overlay-content">
+              <button class="play-btn" (click)="playProgram(program)">
+                ▶ Lire
+              </button>
+              <button class="info-btn" (click)="showProgramInfo(program)">
+                ℹ Info
+              </button>
+            </div>
+          </div>
+          <div class="card-badges">
+            @if (program.rating && program.rating >= 4.5) {
+            <span class="badge premium">Premium</span>
+            } @if (isNewProgram(program)) {
+            <span class="badge new">Nouveau</span>
+            }
+          </div>
+        </div>
+
+        <div class="card-content">
+          <h3 class="card-title">{{ program.titre }}</h3>
+          <p class="card-author">{{ program.author }}</p>
+          <p class="card-description">{{ program.description }}</p>
+
+          <div class="card-meta">
+            <div class="rating" *ngIf="program.rating">
+              <span class="stars">⭐</span>
+              <span class="rating-value">{{ program.rating }}</span>
+            </div>
+            <span class="category">{{
+              getCategoryLabel(program.categorie)
+            }}</span>
+            <span class="duration" *ngIf="program.duration">{{
+              program.duration
+            }}</span>
+          </div>
+
+          <div class="card-actions">
+            <button class="action-btn primary" (click)="playProgram(program)">
+              Commencer la lecture
+            </button>
+            <button
+              class="action-btn secondary"
+              (click)="addToWishlist(program)"
+            >
+              {{ isInWishlist(program) ? "❤️" : "🤍" }}
+            </button>
+            <button
+              class="action-btn secondary"
+              (click)="shareProgram(program)"
+            >
+              📤
+            </button>
+          </div>
+        </div>
+      </div>
+      } }
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button
+        class="page-btn"
+        [disabled]="currentPage === 1"
+        (click)="goToPage(currentPage - 1)"
+      >
+        ‹ Précédent
+      </button>
+
+      <div class="page-numbers">
+        @for (page of getVisiblePages(); track page) {
+        <button
+          class="page-btn"
+          [class.active]="page === currentPage"
+          (click)="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+        }
+      </div>
+
+      <button
+        class="page-btn"
+        [disabled]="currentPage === totalPages"
+        (click)="goToPage(currentPage + 1)"
+      >
+        Suivant ›
+      </button>
+    </div>
+
+    <!-- Bouton "Charger plus" -->
+    <div class="load-more" *ngIf="hasMorePrograms()">
+      <button
+        class="load-more-btn"
+        (click)="loadMorePrograms()"
+        [disabled]="isLoading"
+      >
+        {{ isLoading ? "Chargement..." : "Charger plus d'histoires" }}
+      </button>
+    </div>
+  </section>
+</div>

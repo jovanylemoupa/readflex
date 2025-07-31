@@ -1,0 +1,12 @@
+.read-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .stories{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+
+    }
+}

@@ -1,0 +1,54 @@
+<footer>
+  <div class="content my-container">
+    <div class="top">
+      <div class="logo-networks-apps-blocs">
+        <img src="/assets/img/logo_site.png" alt="Readflex" />
+        <p>
+          Découvrez un monde d'histoires captivantes. ReadFlex vous offre une
+          expérience de lecture fluide et immersive, accessible à tout moment.
+        </p>
+        <div class="networks">
+          <ng-container *ngFor="let network of networks">
+            <a href="{{ network.link }}" target="_blank">
+              <img src="{{ network.sourceImg }}" alt="{{ network.name }}" />
+            </a>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="inform">
+        <h3>S'informer</h3>
+        <ul>
+          <ng-container *ngFor="let item of informLinks">
+            <li routerLink="{{ item.link }}">{{ item.label }}</li>
+          </ng-container>
+        </ul>
+      </div>
+
+      <div class="act">
+        <h3>Participer</h3>
+        <ul>
+          <ng-container *ngFor="let item of actLinks">
+            <li routerLink="{{ item.link }}">{{ item.label }}</li>
+          </ng-container>
+        </ul>
+      </div>
+
+      <div class="apps">
+        <h3>Applications</h3>
+        <ul>
+          <ng-container *ngFor="let app of apps">
+            <li>
+              <a href="{{ app.link }}" target="_blank">
+                <img src="{{ app.sourceImg }}" alt="{{ app.name }}" />
+              </a>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom">
+      <p>© 2024-2025 ReadFlex</p>
+    </div>
+  </div>
+</footer>

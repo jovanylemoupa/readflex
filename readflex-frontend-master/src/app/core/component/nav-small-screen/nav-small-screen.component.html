@@ -1,0 +1,70 @@
+<div class="navigation-small-screen">
+  <ul>
+    <li>
+      <a
+        (click)="onNavigationClicked()"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLink="/"
+      >
+        Accueil
+      </a>
+    </li>
+    <li>
+      <a
+        (click)="onNavigationClicked()"
+        routerLinkActive="active-link"
+        routerLink="/nos-programme"
+      >
+        <span>Nos programme</span>
+      </a>
+    </li>
+    <li>
+      <a
+        (click)="onNavigationClicked()"
+        routerLinkActive="active-link"
+        routerLink="/a-propos"
+      >
+        <span> A propos</span>
+      </a>
+    </li>
+    <li>
+      <a
+        (click)="onNavigationClicked()"
+        routerLinkActive="active-link"
+        routerLink="/se-connecter"
+      >
+        <span>Se connecter</span>
+      </a>
+    </li>
+    <li>
+      <a
+        (click)="onNavigationClicked()"
+        routerLinkActive="active-link"
+        routerLink="s-identifier"
+      >
+        <span>S'identifier</span>
+      </a>
+    </li>
+    <li>
+      <a
+        (click)="onNavigationClicked()"
+        routerLinkActive="active-link"
+        routerLink="/nous-contacter"
+      >
+        <span>Nous Contacter</span>
+      </a>
+    </li>
+  </ul>
+
+  <div class="networks-bloc">
+    <p>Suivez nos histoires</p>
+    <div class="networks">
+      <ng-container *ngFor="let network of networks">
+        <a href="{{ network.link }}" target="_blank">
+          <img src="{{ network.sourceImg }}" alt="{{ network.name }}" />
+        </a>
+      </ng-container>
+    </div>
+  </div>
+</div>

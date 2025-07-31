@@ -1,0 +1,10 @@
+{
+  "APP_TITLE": "My Application",
+  "WELCOME": "Welcome to my Angular application",
+  "LANGUAGE": "Language",
+  "FRENCH": "French",
+  "ENGLISH": "English",
+  "HOME": "Home",
+  "ABOUT": "About",
+  "CONTACT": "Contact"
+}

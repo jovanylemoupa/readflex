@@ -1,0 +1,144 @@
+<div class="home-container">
+  <app-hero-banner></app-hero-banner>
+
+  <main>
+    <!-- Section Recherche Rapide -->
+    <section class="search-section">
+      <div class="search-container">
+        <h3>Découvrez votre prochaine lecture</h3>
+        <div class="search-bar">
+          <input
+            type="text"
+            placeholder="Rechercher une histoire, un auteur, un genre..."
+            [(ngModel)]="searchTerm"
+            (input)="onSearchChange()"
+            class="search-input"
+          />
+          <div class="search-icon">📚</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Histoires en Vedette -->
+    <section class="featured-section">
+      <div class="section-header">
+        <h2>📖 Histoires en Vedette</h2>
+        <button class="view-all-btn">Voir tout</button>
+      </div>
+      <div class="stories-grid featured-grid">
+        @for (story of featuredStories; track $index) {
+        <app-card-story
+          [story]="story"
+          class="story-card-featured"
+        ></app-card-story>
+        }
+      </div>
+    </section>
+
+    <!-- Section Catégories Populaires -->
+    <section class="categories-section">
+      <h2>🎭 Explorez par Genre</h2>
+      <div class="categories-grid">
+        @for (category of categories; track $index) {
+        <div class="category-card" (click)="filterByCategory(category.name)">
+          <div class="category-icon">{{ category.icon }}</div>
+          <h4>{{ category.displayName }}</h4>
+          <span class="story-count"
+            >{{ getStoriesCountByCategory(category.name) }} histoires</span
+          >
+        </div>
+        }
+      </div>
+    </section>
+
+    <!-- Section Fantastique -->
+    <section class="genre-section fantastique">
+      <div class="section-header">
+        <h2>✨ Histoires Fantastiques</h2>
+        <div class="genre-nav">
+          <button class="nav-btn prev-btn" (click)="scrollLeft('fantastique')">
+            ‹
+          </button>
+          <button class="nav-btn next-btn" (click)="scrollRight('fantastique')">
+            ›
+          </button>
+        </div>
+      </div>
+      <div class="stories-carousel" #fantastiqueCarousel>
+        @for (story of getStoriesByCategory('Fantastique'); track $index) {
+        <app-card-story
+          [story]="story"
+          class="story-card-carousel"
+        ></app-card-story>
+        }
+      </div>
+    </section>
+
+    <!-- Section Contes et Légendes -->
+    <section class="genre-section legende">
+      <div class="section-header">
+        <h2>🏰 Contes et Légendes</h2>
+        <div class="genre-nav">
+          <button class="nav-btn prev-btn" (click)="scrollLeft('legende')">
+            ‹
+          </button>
+          <button class="nav-btn next-btn" (click)="scrollRight('legende')">
+            ›
+          </button>
+        </div>
+      </div>
+      <div class="stories-carousel" #legendeCarousel>
+        @for (story of getStoriesByCategory('ContesLegendes'); track $index) {
+        <app-card-story
+          [story]="story"
+          class="story-card-carousel"
+        ></app-card-story>
+        }
+      </div>
+    </section>
+
+    <!-- Section Nouvelles Histoires -->
+    <section class="new-stories-section">
+      <div class="section-header">
+        <h2>🆕 Nouveautés</h2>
+        <select
+          class="sort-select"
+          [(ngModel)]="sortBy"
+          (change)="onSortChange()"
+        >
+          <option value="date">Plus récentes</option>
+          <option value="popularity">Plus populaires</option>
+          <option value="rating">Mieux notées</option>
+        </select>
+      </div>
+      <div class="stories-grid new-stories-grid">
+        @for (story of getNewStories(); track $index) {
+        <app-card-story [story]="story" class="story-card-new"></app-card-story>
+        }
+      </div>
+    </section>
+
+    <!-- Section Statistiques Personnalisées -->
+    <section class="stats-section">
+      <h2>📊 Vos Statistiques de Lecture</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">{{ totalStoriesRead }}</div>
+          <div class="stat-label">Histoires lues</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">{{ totalTimeRead }}</div>
+          <div class="stat-label">Heures de lecture</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">{{ favoriteGenre }}</div>
+          <div class="stat-label">Genre favori</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">{{ currentStreak }}</div>
+          <div class="stat-label">Jours consécutifs</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

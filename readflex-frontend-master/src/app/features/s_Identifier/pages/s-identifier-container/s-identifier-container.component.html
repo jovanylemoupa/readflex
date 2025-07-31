@@ -1,0 +1,76 @@
+<div class="s-identifier-container">
+  <div class="container">
+    <h2>Inscription</h2>
+
+    <form [formGroup]="inscriptionInfo" (ngSubmit)="onCreateUser()">
+      <div class="form-group pt-3">
+        <div class="input-field">
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-user" />
+            <input
+              type="text"
+              pInputText
+              placeholder="Nom d'utilisateur"
+              formControlName="username"
+            />
+          </p-iconField>
+          @if ( isSaveButtonClicked &&
+          inscriptionInfo.controls['username'].invalid) {
+          <small class="text-danger">*Nom d'utilisateur requis</small>
+          }
+        </div>
+        <div class="email">
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-envelope" />
+            <input
+              type="email"
+              pInputText
+              placeholder="Email"
+              formControlName="email"
+            />
+          </p-iconField>
+          @if ( isSaveButtonClicked &&
+          inscriptionInfo.controls['email'].invalid) { @if
+          (inscriptionInfo.controls['email'].errors?.["required"]) {
+          <small class="text-danger">*L'email est requis</small>
+          } @if (inscriptionInfo.controls['email'].errors?.["email"]) {
+          <small class="text-danger">
+            *Le format de l'email ne correspond pas
+          </small>
+          } }
+        </div>
+        <div class="passw">
+          <label for="pass">Mot de passe :</label>
+
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-lock"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              class="ng-invalid ng-dirty"
+              formControlName="password"
+            />
+          </p-inputGroup>
+        </div>
+        @if ( isSaveButtonClicked &&
+        inscriptionInfo.controls['password'].invalid ) {
+        <small class="text-danger">*Le mot de passe est requis</small>
+        }
+
+        <label for="password">Confirmez le mot de passe:</label>
+        <input type="type" pInputText formControlName="passcomfirm" />
+        @if ( isSaveButtonClicked &&
+        inscriptionInfo.controls['passcomfirm'].invalid) { @if
+        (inscriptionInfo.controls['passcomfirm'].errors?.["required"]){
+        <small class="text-danger">*La comfirmation est requise</small>
+        } @if (inscriptionInfo.controls['passcomfirm'].errors?.["mustMatch"]) {
+        <small class="text-danger"> *Le mot de passe ne correspond pas! </small>
+        } }
+
+        <button type="submit">Valider</button>
+      </div>
+    </form>
+  </div>
+  <p-toast position="top-center" />
+</div>

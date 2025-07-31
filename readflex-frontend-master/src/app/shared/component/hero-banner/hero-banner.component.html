@@ -1,0 +1,30 @@
+<div class="hero-banner">
+  <p-carousel
+    [value]="heroCards"
+    [numVisible]="1"
+    [numScroll]="1"
+    [circular]="true"
+    [responsiveOptions]="responsiveOptions"
+    [autoplayInterval]="4000"
+    [showIndicators]="true"
+    [showNavigators]="true"
+  >
+    <ng-template let-heroCard pTemplate="item">
+      <div class="hero-item">
+        <img
+          [ngSrc]="heroCard.image"
+          [alt]="heroCard.titre"
+          fill
+          priority
+          class="hero-image"
+        />
+        <div class="hero-overlay">
+          <div class="hero-content">
+            <h2 class="hero-title">{{ heroCard.titre }}</h2>
+            <p class="hero-description">{{ heroCard.description }}</p>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>

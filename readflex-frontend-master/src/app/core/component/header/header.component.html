@@ -1,0 +1,106 @@
+<header #header>
+  <div class="content header-container">
+    <a class="logo" routerLink="">
+      <i class="redclass"> READ</i> <i class="classbass">FLEX</i></a
+    >
+    <nav>
+      <ul>
+        <li>
+          <a
+            rel="canonical"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLink="/"
+          >
+            Accueil</a
+          >
+        </li>
+        <li>
+          <a
+            rel="canonical"
+            routerLinkActive="active-link"
+            routerLink="/nos-programme"
+            >Nos Programmes</a
+          >
+        </li>
+        <li>
+          <a
+            rel="canonical"
+            routerLinkActive="active-link"
+            routerLink="/a-propos"
+            >A propos</a
+          >
+        </li>
+        @if (!isConnected) {
+        <li>
+          <a
+            rel="canonical"
+            routerLinkActive="active-link"
+            routerLink="/se-connecter"
+          >
+            Se Connecter
+          </a>
+        </li>
+
+        <li>
+          <a
+            rel="canonical"
+            routerLinkActive="active-link"
+            routerLink="/s-identifier"
+          >
+            S'identifier</a
+          >
+        </li>
+        } @else {
+        <li>
+          <a
+            rel="canonical"
+            routerLinkActive="active-link"
+            routerLink="/se-connecter"
+          >
+            Mon Compte
+          </a>
+        </li>
+        <li>
+          <a
+            rel="canonical"
+            routerLinkActive="active-link"
+            (click)="onLoginOut()"
+          >
+            Se Déconnecter
+          </a>
+        </li>
+        }
+        <li>
+          <div class="button-multilanguage ultra-compact">
+            <button
+              type="button"
+              class="btn btn-secondary language-toggle"
+              (click)="toggleToOtherLanguage()"
+              [title]="
+                'Changer vers ' +
+                (multiLangService.languageSignal() === 'gb'
+                  ? 'Français'
+                  : 'English')
+              "
+            >
+              {{
+                multiLangService.languageSignal() === "gb" ? "🇬🇧 EN" : "🇫🇷 FR"
+              }}
+            </button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <div
+      class="burger"
+      [ngClass]="displayMenu === true ? 'show-cross' : ''"
+      (click)="onBurgerMenu()"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</header>
