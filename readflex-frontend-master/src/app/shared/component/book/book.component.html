@@ -1,0 +1,142 @@
+<div class="book-container">
+  <p-toast></p-toast>
+
+  <p-card header="Créer un nouveau livre" styleClass="book-form-card">
+    <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" class="book-form">
+      <!-- Titre -->
+      <div class="field">
+        <label for="title" class="required">Titre *</label>
+        <input
+          id="title"
+          type="text"
+          pInputText
+          formControlName="title"
+          placeholder="Entrez le titre du livre"
+          [class.ng-invalid]="title?.invalid && title?.touched"
+          class="w-full"
+        />
+        <small *ngIf="title?.invalid && title?.touched" class="p-error">
+          Le titre est requis
+        </small>
+      </div>
+
+      <!-- Description -->
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          pInputTextarea
+          formControlName="description"
+          placeholder="Décrivez votre livre..."
+          rows="4"
+          class="w-full"
+        ></textarea>
+      </div>
+
+      <!-- Genre et Langue (sur la même ligne) -->
+      <div class="formgrid grid">
+        <div class="field col-12 md:col-6">
+          <label for="genre">Genre</label>
+          <p-dropdown
+            id="genre"
+            formControlName="genre"
+            [options]="genreOptions"
+            placeholder="Sélectionnez un genre"
+            optionLabel="label"
+            optionValue="value"
+            class="w-full"
+          ></p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-6">
+          <label for="language">Langue</label>
+          <p-dropdown
+            id="language"
+            formControlName="language"
+            [options]="languageOptions"
+            optionLabel="label"
+            optionValue="value"
+            class="w-full"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- Statut -->
+      <div class="field">
+        <label for="status">Statut</label>
+        <p-dropdown
+          id="status"
+          formControlName="status"
+          [options]="statusOptions"
+          optionLabel="label"
+          optionValue="value"
+          class="w-full"
+        ></p-dropdown>
+      </div>
+
+      <!-- Images -->
+      <div class="formgrid grid">
+        <div class="field col-12 md:col-6">
+          <label for="coverImage">Image de couverture (URL)</label>
+          <input
+            id="coverImage"
+            type="url"
+            pInputText
+            formControlName="coverImage"
+            placeholder="https://exemple.com/cover.jpg"
+            class="w-full"
+          />
+        </div>
+
+        <div class="field col-12 md:col-6">
+          <label for="lastImage">Dernière image (URL)</label>
+          <input
+            id="lastImage"
+            type="url"
+            pInputText
+            formControlName="lastImage"
+            placeholder="https://exemple.com/last.jpg"
+            class="w-full"
+          />
+        </div>
+      </div>
+
+      <!-- Options -->
+      <div class="field">
+        <div class="flex align-items-center">
+          <p-checkbox
+            id="isPublic"
+            formControlName="isPublic"
+            binary="true"
+          ></p-checkbox>
+          <label for="isPublic" class="ml-2">Livre public</label>
+        </div>
+        <small class="text-600"
+          >Si coché, le livre sera visible par tous les utilisateurs</small
+        >
+      </div>
+
+      <!-- Champ caché pour authorId - à remplir automatiquement -->
+      <input type="hidden" formControlName="authorId" />
+
+      <!-- Boutons -->
+      <div class="form-actions">
+        <p-button
+          type="button"
+          label="Annuler"
+          severity="secondary"
+          (onClick)="resetForm()"
+          [disabled]="isLoading"
+          class="mr-2"
+        ></p-button>
+
+        <p-button
+          type="submit"
+          label="Créer le livre"
+          [loading]="isLoading"
+          loadingIcon="pi pi-spin pi-spinner"
+        ></p-button>
+      </div>
+    </form>
+  </p-card>
+</div>

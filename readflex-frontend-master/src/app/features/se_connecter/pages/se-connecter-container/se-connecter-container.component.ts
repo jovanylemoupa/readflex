@@ -15,7 +15,7 @@ import { UserService } from '../../../../shared/services/user/user.service';
 import { User } from '../../../../shared/models/user';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { lastValueFrom, timer } from 'rxjs';
+import { lastValueFrom, Observable, timer } from 'rxjs';
 import { ToastModule } from 'primeng/toast';
 import { AuthService } from '../../../../shared/services/auth/auth.service';
 
@@ -44,7 +44,6 @@ export class SeConnecterContainerComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService,
     private authService: AuthService,
     private messageService: MessageService,
     private router: Router
@@ -56,7 +55,7 @@ export class SeConnecterContainerComponent implements OnInit {
 
   initform(): void {
     this.connexionInfo = this.fb.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
@@ -68,31 +67,22 @@ export class SeConnecterContainerComponent implements OnInit {
     }
 
     const loginData = {
-      username: this.connexionInfo.controls['username'].value,
+      email: this.connexionInfo.controls['email'].value,
       password: this.connexionInfo.controls['password'].value,
     };
 
     this.authService.login(loginData).subscribe({
       next: (res: any) => {
-        localStorage.setItem('isUserLogged', JSON.stringify(true));
-
         this.authService.isUserLogged$.next(true);
 
-        this.messageService.add({
-          severity: 'success',
-          detail: ' Bienvenue dans votre compte ',
-        });
+        this.authService.currentUser$.next(res.user);
 
-        lastValueFrom(timer(2000)).then(() => {
-          this.router.navigateByUrl('/home-story');
-        });
+        this.router.navigateByUrl('/home-story');
       },
       error: (err: any) => {
-        this.messageService.add({
-          severity: 'success',
-          detail:
-            " Desole le mot de passe ou le nom d'utilisateur ne convient pas",
-        });
+        const errorMsg = err?.error?.message || 'Identifiants incorrects.';
+
+        window.alert(errorMsg);
 
         lastValueFrom(timer(2000)).then(() => {
           this.router.navigateByUrl('/se-connecter');

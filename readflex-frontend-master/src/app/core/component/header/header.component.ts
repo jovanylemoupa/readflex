@@ -26,7 +26,7 @@ import { MultilangService } from '../../../shared/services/MultiLang/multilang.s
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, NgClass, NavSmallScreenComponent],
+  imports: [RouterLink, RouterLinkActive, NgClass],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -132,7 +132,7 @@ export class HeaderComponent implements OnInit {
     if (currentScrollTop <= this.scrollThreshold) {
       this.scrollCount = 0;
       this.showHeader();
-      console.log('🔄 Compteur remis à 0 (en haut de page)');
+      console.log(' Compteur remis à 0 (en haut de page)');
       return;
     }
 
@@ -146,7 +146,7 @@ export class HeaderComponent implements OnInit {
       this.lastScrollTime = currentTime;
 
       console.log(
-        `📱 Scroll vers le bas ${this.scrollCount}/${this.maxScrollsBeforeHide}`
+        ` Scroll vers le bas ${this.scrollCount}/${this.maxScrollsBeforeHide}`
       );
 
       if (
@@ -223,15 +223,12 @@ export class HeaderComponent implements OnInit {
   }
 
   onLoginOut() {
-    this.authService.isUserLogged$.next(false);
-    // CORRECTION SSR pour localStorage
-    if (
-      this.isBrowser &&
-      typeof window !== 'undefined' &&
-      window.localStorage
-    ) {
-      localStorage.removeItem('isUserLogged');
-    }
+    this.authService.LoginOut().subscribe({
+      next: (res: any) => {
+        this.authService.isUserLogged$.next(false);
+        this.router.navigateByUrl('');
+      },
+    });
   }
 
   getInitials(fullName: string): string {

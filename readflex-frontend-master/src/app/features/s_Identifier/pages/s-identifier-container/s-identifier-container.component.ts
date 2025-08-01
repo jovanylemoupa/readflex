@@ -92,6 +92,7 @@ export class SIdentifierContainerComponent implements OnInit {
       },
       error: (err: any) => {
         console.log(err);
+        alert;
       },
     });
   }

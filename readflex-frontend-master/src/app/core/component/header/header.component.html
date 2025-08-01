@@ -6,6 +6,7 @@
     <nav>
       <ul>
         <li>
+          @if (!isConnected) {
           <a
             rel="canonical"
             routerLinkActive="active-link"
@@ -14,6 +15,16 @@
           >
             Accueil</a
           >
+          } @else {
+          <a
+            rel="canonical"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLink="/home-story"
+          >
+            Accueil</a
+          >
+          }
         </li>
         <li>
           <a

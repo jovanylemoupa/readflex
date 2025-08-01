@@ -11,11 +11,11 @@
               type="text"
               pInputText
               placeholder="Nom d'utilisateur"
-              formControlName="username"
+              formControlName="email"
             />
           </p-iconField>
           @if ( isSaveButtonClicked &&
-          inscriptionInfo.controls['username'].invalid) {
+          inscriptionInfo.controls['email'].invalid) {
           <small class="text-danger">*Nom d'utilisateur requis</small>
           }
         </div>

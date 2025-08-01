@@ -7,13 +7,19 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class AuthService {
-  userBaseUrl = environment.baseUrl + '/users';
+  userBaseUrl = environment.baseUrl;
   isUserLogged$ = new BehaviorSubject<boolean>(false);
+  currentUser$ = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) {}
 
   login(loginData: any): Observable<any> {
-    localStorage.setItem('isUserLogged', 'true');
-    return this.http.post<any>(this.userBaseUrl + '/login', loginData);
+    console.log('connexion', loginData);
+    return this.http.post(`${this.userBaseUrl}/auth/login`, loginData);
+  }
+
+  LoginOut() {
+    console.log('Déconnexion');
+    return this.http.post(`${this.userBaseUrl}/auth/logout`, null);
   }
 }
